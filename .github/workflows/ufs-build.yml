@@ -46,7 +46,8 @@ jobs:
           mkdir -p release/ref out
           curl -fsSL -o release/ref/mu300-kernel.tar.gz \
             https://github.com/dikeckaan/mu300-linux/releases/download/v2026.11.02.1/mu300-kernel.tar.gz
-          sh upstream/make-bundle.sh out/mu300-kernel-6.18.tar.gz release/ref/mu300-kernel.tar.gz
+          series=$(echo "${{ inputs.kv }}" | cut -d. -f1,2)
+          sh upstream/make-bundle.sh "out/mu300-kernel-$series.tar.gz" release/ref/mu300-kernel.tar.gz
 
       - name: Build logs
         if: failure()
@@ -65,5 +66,5 @@ jobs:
             upstream/out/modules/*.ko
             upstream/out/modules.in-tree
             upstream/out/modules.builtin*
-            out/mu300-kernel-6.18.tar.gz
+            out/mu300-kernel-*.tar.gz
           if-no-files-found: warn
