@@ -44,6 +44,7 @@ jobs:
         continue-on-error: true
         run: |
           mkdir -p release/ref out
+          sudo chown -R "$(id -u):$(id -g)" upstream/out
           curl -fsSL -o release/ref/mu300-kernel.tar.gz \
             https://github.com/dikeckaan/mu300-linux/releases/download/v2026.11.02.1/mu300-kernel.tar.gz
           series=$(echo "${{ inputs.kv }}" | cut -d. -f1,2)
